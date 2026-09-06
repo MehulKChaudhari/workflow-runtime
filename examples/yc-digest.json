@@ -14,7 +14,7 @@
       "id": "summarize-story-1",
       "type": "llm-call",
       "config": {
-        "model": "gpt-4o-mini",
+        "model": "gemini-2.5-flash",
         "prompt": "Summarize the top HN story in two sentences. Focus on why it matters to builders.",
         "maxTokens": 120
       }
@@ -23,7 +23,7 @@
       "id": "summarize-story-2",
       "type": "llm-call",
       "config": {
-        "model": "gpt-4o-mini",
+        "model": "gemini-2.5-flash",
         "prompt": "Summarize the second HN story in two sentences. Focus on why it matters to builders.",
         "maxTokens": 120
       }
@@ -32,7 +32,7 @@
       "id": "summarize-story-3",
       "type": "llm-call",
       "config": {
-        "model": "gpt-4o-mini",
+        "model": "gemini-2.5-flash",
         "prompt": "Summarize the third HN story in two sentences. Focus on why it matters to builders.",
         "maxTokens": 120
       }
@@ -41,7 +41,7 @@
       "id": "merge-digest",
       "type": "llm-call",
       "config": {
-        "model": "gpt-4o",
+        "model": "gemini-2.5-flash",
         "prompt": "Combine the three story summaries into a single morning digest with a one-line intro.",
         "maxTokens": 400
       }

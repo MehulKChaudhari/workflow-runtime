@@ -4,3 +4,4 @@
  */
 export type { Worker, WorkerInput, WorkerRegistry } from "./worker";
 export { echoWorker } from "./echo";
+export { createLlmCallWorker } from "./llmCall";

@@ -151,6 +151,9 @@ importers:
 
   packages/workers:
     dependencies:
+      '@workflow/provider':
+        specifier: workspace:*
+        version: link:../provider
       '@workflow/shared':
         specifier: workspace:*
         version: link:../shared
