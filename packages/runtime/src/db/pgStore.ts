@@ -19,7 +19,8 @@ import { nodeRuns, runEvents, runs, workflows } from "./schema";
 export type Db = PostgresJsDatabase;
 
 export function createDb(databaseUrl: string): { db: Db; close: () => Promise<void> } {
-  const client = postgres(databaseUrl);
+  // IF NOT EXISTS still emits NOTICE; that noise drowns the demo log.
+  const client = postgres(databaseUrl, { onnotice: () => {} });
   return { db: drizzle(client), close: () => client.end() };
 }
 
@@ -216,6 +217,7 @@ export async function recoverRun(
     const result = transitionNode(state, { type: "ATTEMPT_FAILED" }, policy);
     if (!result.ok) throw new Error(`recovery bug: ${result.reason}`);
     states.set(nodeId, result.state);
+    options.onTransition?.(nodeId, result.state);
     interrupted.push({
       nodeId,
       event: "ATTEMPT_FAILED",

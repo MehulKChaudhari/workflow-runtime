@@ -2,9 +2,11 @@ import type { JsonObject, RunStatus } from "@workflow/shared";
 import type { NodeEvent, NodeLifecycleState } from "./nodeLifecycle";
 
 /** One applied transition, as it should be remembered. */
+export type TransitionEvent = NodeEvent["type"];
+
 export interface TransitionRecord {
   nodeId: string;
-  event: ["type"];
+  event: TransitionEvent;
   /** State after the transition. */
   state: NodeLifecycleState;
   output?: JsonObject;

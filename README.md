@@ -43,11 +43,29 @@ execution layer that powers AI workflows.
 TypeScript, Hono, PostgreSQL, Drizzle, Zod, Pino · React, Vite, Tailwind,
 React Flow · pnpm workspaces.
 
+## Demo: crash and continue
+
+Postgres must be up (`docker compose up -d`). Then:
+
+```bash
+pnpm demo                # birthday-cake, slow workers
+pnpm demo -- yc-digest   # same engine, larger graph
+```
+
+While a node says `working`, kill the process (`Ctrl-C` or `kill -9`). Restart with:
+
+```bash
+pnpm demo -- --recover
+```
+
+Finished nodes stay finished. The node that was `running` retries (at-least-once). The run completes.
+
 ## Development
 
 ```bash
 pnpm install
 pnpm typecheck
+pnpm test
 ```
 
 ## Status
