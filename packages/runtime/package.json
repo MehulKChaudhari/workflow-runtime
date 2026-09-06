@@ -10,6 +10,8 @@
     "@workflow/graph": "workspace:*",
     "@workflow/scheduler": "workspace:*",
     "@workflow/shared": "workspace:*",
-    "@workflow/workers": "workspace:*"
+    "@workflow/workers": "workspace:*",
+    "drizzle-orm": "^0.45.2",
+    "postgres": "^3.4.9"
   }
 }
