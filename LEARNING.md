@@ -242,3 +242,28 @@ with event history; simulated crash (legal persisted prefix with a node
 stuck `running`) recovers, keeps pre-crash outputs, re-runs only the
 interrupted node; recovery with exhausted budget fails the run and skips
 descendants.
+
+## Demo script
+
+`pnpm demo` is the same engine with slow echo workers and a printed
+transition log. `--recover` calls `recoverRun` on the last run id. The
+script adds no new semantics — it only makes persist-before-act visible
+in a terminal so a `kill -9` can be shown, not just tested.
+
+## Phase 5 — Provider + llm-call worker
+
+An LLM is next-token autocomplete. We never let it drive the graph. We
+only ask it for text, behind one interface, the same way `pg` hides
+which database vendor you use.
+
+`Provider.complete({ messages, model? })` returns `{ text, model,
+inputTokens, outputTokens }`. Per-call `model` wins over the provider
+default (`gemini-2.5-flash`). Keys come from `GEMINI_API_KEY`, never
+from node config (that JSON is stored and shown).
+
+Retries: provider retries 429 / 5xx / timeout a few times with backoff,
+then throws. Runtime owns attempt budget. "Not JSON" is the caller's
+problem — the provider does not know we wanted a graph.
+
+`createFakeProvider` lives in the package so worker tests don't need a
+key. First real adapter is Gemini over REST (`fetch`), no vendor SDK.
