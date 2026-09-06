@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+/* Register surface tokens so they can interpolate smoothly between themes. */
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #faf9f7;
+}
+@property --bg-elevated {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+@property --bg-muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f3f1ec;
+}
+@property --border {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e8e4dc;
+}
+@property --border-subtle {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f0ece4;
+}
+@property --text {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1c1917;
+}
+@property --text-muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #78716c;
+}
+@property --text-subtle {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #a8a29e;
+}
+
+/* Theme tokens — swap under [data-theme="dark"] later without touching components. */
+:root {
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --bg: #faf9f7;
+  --bg-elevated: #ffffff;
+  --bg-muted: #f3f1ec;
+  --border: #e8e4dc;
+  --border-subtle: #f0ece4;
+  --text: #1c1917;
+  --text-muted: #78716c;
+  --text-subtle: #a8a29e;
+  --accent: #0d6e6e;
+  --accent-hover: #0a5555;
+  --accent-soft: #e6f3f3;
+  --accent-ring: #9fd4d4;
+  --shadow-sm: 0 1px 2px rgb(28 25 23 / 0.04);
+  --shadow-md: 0 8px 30px rgb(28 25 23 / 0.06);
+  --shadow-lg: 0 20px 50px rgb(28 25 23 / 0.08);
+
+  --status-pending-bg: #f5f5f4;
+  --status-pending-text: #57534e;
+  --status-pending-ring: #d6d3d1;
+  --status-pending-dot: #a8a29e;
+
+  --status-ready-bg: #eff6ff;
+  --status-ready-text: #1d4ed8;
+  --status-ready-ring: #93c5fd;
+  --status-ready-dot: #3b82f6;
+
+  --status-running-bg: #fffbeb;
+  --status-running-text: #b45309;
+  --status-running-ring: #fcd34d;
+  --status-running-dot: #f59e0b;
+
+  --status-succeeded-bg: #ecfdf5;
+  --status-succeeded-text: #047857;
+  --status-succeeded-ring: #6ee7b7;
+  --status-succeeded-dot: #10b981;
+
+  --status-failed-bg: #fef2f2;
+  --status-failed-text: #b91c1c;
+  --status-failed-ring: #fca5a5;
+  --status-failed-dot: #ef4444;
+
+  --status-skipped-bg: #f5f5f4;
+  --status-skipped-text: #78716c;
+  --status-skipped-ring: #d6d3d1;
+  --status-skipped-dot: #a8a29e;
+}
+
+[data-theme="dark"] {
+  /* Surface + text only — accent and status tokens stay identical in both themes. */
+  --bg: #141413;
+  --bg-elevated: #1c1c1a;
+  --bg-muted: #252523;
+  --border: #3a3a36;
+  --border-subtle: #2a2a28;
+  --text: #f5f5f4;
+  --text-muted: #a8a29e;
+  --text-subtle: #78716c;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.2);
+  --shadow-md: 0 8px 30px rgb(0 0 0 / 0.25);
+  --shadow-lg: 0 20px 50px rgb(0 0 0 / 0.35);
+}
+
+@theme {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light dark;
+    transition:
+      --bg 0.32s ease,
+      --bg-elevated 0.32s ease,
+      --bg-muted 0.32s ease,
+      --border 0.32s ease,
+      --border-subtle 0.32s ease,
+      --text 0.32s ease,
+      --text-muted 0.32s ease,
+      --text-subtle 0.32s ease;
+  }
+
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition:
+      background-color 0.32s ease,
+      border-color 0.32s ease,
+      color 0.32s ease,
+      fill 0.32s ease,
+      stroke 0.32s ease;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+}
+
+@layer utilities {
+  .bg-skipped-pattern {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 4px,
+      rgb(120 113 108 / 0.06) 4px,
+      rgb(120 113 108 / 0.06) 8px
+    );
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out both;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out both;
+  }
+
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.1s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.2s; }
+  .stagger-5 { animation-delay: 0.25s; }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, black 20%, transparent 75%);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.72; }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.32s;
+  animation-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* React Flow overrides */
+.react-flow__background {
+  background: var(--bg-muted) !important;
+}
+
+.react-flow__minimap {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}

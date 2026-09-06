@@ -1,0 +1,44 @@
+{
+  "name": "birthday-cake",
+  "nodes": [
+    {
+      "id": "buy",
+      "type": "shop",
+      "config": {
+        "items": ["flour", "sugar", "eggs", "butter", "vanilla"],
+        "store": "corner market"
+      }
+    },
+    {
+      "id": "bake",
+      "type": "oven",
+      "config": {
+        "temperatureF": 350,
+        "durationMinutes": 35,
+        "panSize": "9-inch round"
+      }
+    },
+    {
+      "id": "make-frosting",
+      "type": "mix",
+      "config": {
+        "recipe": "buttercream",
+        "color": "pale pink"
+      }
+    },
+    {
+      "id": "frost",
+      "type": "assemble",
+      "config": {
+        "style": "smooth sides",
+        "topDecoration": "candles"
+      }
+    }
+  ],
+  "edges": [
+    { "from": "buy", "to": "bake" },
+    { "from": "buy", "to": "make-frosting" },
+    { "from": "bake", "to": "frost" },
+    { "from": "make-frosting", "to": "frost" }
+  ]
+}
