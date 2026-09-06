@@ -1,0 +1,67 @@
+{
+  "name": "yc-digest",
+  "nodes": [
+    {
+      "id": "fetch-yc-news",
+      "type": "http-fetch",
+      "config": {
+        "url": "https://news.ycombinator.com/",
+        "method": "GET",
+        "headers": { "User-Agent": "workflow-runtime/0.0.0" }
+      }
+    },
+    {
+      "id": "summarize-story-1",
+      "type": "llm-call",
+      "config": {
+        "model": "gpt-4o-mini",
+        "prompt": "Summarize the top HN story in two sentences. Focus on why it matters to builders.",
+        "maxTokens": 120
+      }
+    },
+    {
+      "id": "summarize-story-2",
+      "type": "llm-call",
+      "config": {
+        "model": "gpt-4o-mini",
+        "prompt": "Summarize the second HN story in two sentences. Focus on why it matters to builders.",
+        "maxTokens": 120
+      }
+    },
+    {
+      "id": "summarize-story-3",
+      "type": "llm-call",
+      "config": {
+        "model": "gpt-4o-mini",
+        "prompt": "Summarize the third HN story in two sentences. Focus on why it matters to builders.",
+        "maxTokens": 120
+      }
+    },
+    {
+      "id": "merge-digest",
+      "type": "llm-call",
+      "config": {
+        "model": "gpt-4o",
+        "prompt": "Combine the three story summaries into a single morning digest with a one-line intro.",
+        "maxTokens": 400
+      }
+    },
+    {
+      "id": "save-digest",
+      "type": "http-post",
+      "config": {
+        "url": "https://api.example.com/digests",
+        "body": { "channel": "morning-brief", "format": "markdown" }
+      }
+    }
+  ],
+  "edges": [
+    { "from": "fetch-yc-news", "to": "summarize-story-1" },
+    { "from": "fetch-yc-news", "to": "summarize-story-2" },
+    { "from": "fetch-yc-news", "to": "summarize-story-3" },
+    { "from": "summarize-story-1", "to": "merge-digest" },
+    { "from": "summarize-story-2", "to": "merge-digest" },
+    { "from": "summarize-story-3", "to": "merge-digest" },
+    { "from": "merge-digest", "to": "save-digest" }
+  ]
+}
